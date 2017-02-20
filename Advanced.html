@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab 6, Advanced</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <!-- Need link below for jQuery's datepicker -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="Advanced_styles.css">
+</head>
+<body>
+
+  <input type="text" name="input">
+  <button id="submit_button" type="button">Add to list</button>
+  <button id="remove_button" type="button">Remove done</button>
+  <ol></ol>
+  <table></table>
+
+<script>
+
+  // When submit button is clicked, append to the ordered list
+  // text in the input box, then clear said text from input box
+  $("#submit_button").click(function() {
+    $("ol").append($("<li>", {
+      text: $("input").val()
+    }));
+    $("input").val("")
+  });
+
+  // When a list item in the ordered list is
+  // clicked, toggle the class to/from "done"
+  $("ol").on("click", "li", function() {
+    $(this).toggleClass("done")
+  });
+
+  // When the remove button is clicked, first find today's date and format it.
+  // Then for each list item with class "done", append to table the list item's
+  // text and date in one row as two columns and apply fade in effect.
+  // Finally, fade out the "done" list items as they are removed
+  $("#remove_button").click(function() {
+    var date = $.datepicker.formatDate('mm/dd/yy', new Date());
+    $(".done").each(function() {
+      $("table").append($("<tr><td>" + $(this).text() + "</td><td>" + date + "</td></tr>").hide().fadeIn(2000))
+    });
+    $(".done").fadeOut(1500, function() {
+      $(this).remove()
+    })
+  })
+
+</script>
+
+</body>
+</html>
